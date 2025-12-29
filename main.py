@@ -45,8 +45,8 @@ try:
     time.sleep(5)
 
     # wait until consent button
-    consent_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'p.fc-button-label')))
-    consent_button.click()
+    # consent_button = WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'p.fc-button-label')))
+    # consent_button.click()
 	
     # wait until at least one checkbox label is present
     wait = WebDriverWait(driver, 15)
