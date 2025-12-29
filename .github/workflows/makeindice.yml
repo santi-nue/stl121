@@ -1,4 +1,4 @@
-name: Generate elecyrad index.html
+name: Generate eleyrad index.html
 
 on:
   push:
@@ -16,18 +16,18 @@ jobs:
 
       - name: Generate index.html
         run: |
-          mkdir -p elecyrad
-          cd elecyrad
-          FILES=$(ls elecyrad_*.html 2>/dev/null || echo "")
+          mkdir -p eleyrad
+          cd eleyrad
+          FILES=$(ls eleyrad_*.html 2>/dev/null || echo "")
           
           if [ -z "$FILES" ]; then
-            echo "No elecyrad_*.html files found."
+            echo "No eleyrad_*.html files found."
             exit 0
           fi
           
-          printf '<!DOCTYPE html>\n<html>\n<head>\n<title>Elecyrad Files</title>\n<style>\n' > index.html
+          printf '<!DOCTYPE html>\n<html>\n<head>\n<title>Eleyrad Files</title>\n<style>\n' > index.html
           printf 'body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; }\nul { list-style: none; padding: 0; }\nli { margin: 10px 0; }\n' >> index.html
-          printf 'a { display: block; padding: 10px; background: #f5f5f5; text-decoration: none; border-radius: 5px; }\na:hover { background: #e0e0e0; }\n</style>\n</head>\n<body>\n<h1>Elecyrad Files Directory</h1>\n<ul>\n' >> index.html
+          printf 'a { display: block; padding: 10px; background: #f5f5f5; text-decoration: none; border-radius: 5px; }\na:hover { background: #e0e0e0; }\n</style>\n</head>\n<body>\n<h1>Eleyrad Files Directory</h1>\n<ul>\n' >> index.html
           
           for file in $FILES; do
             printf '  <li><a href="%s">%s</a></li>\n' "$file" "$file" >> index.html
@@ -42,14 +42,14 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          if [ -f "elecyrad/index.html" ]; then
-            git add elecyrad/index.html
+          if [ -f "eleyrad/index.html" ]; then
+            git add eleyrad/index.html
             if git diff --staged --quiet; then
               echo "No changes to commit"
             else
-              git commit -m "Update elecyrad/index.html [skip ci]"
+              git commit -m "Update eleyrad/index.html [skip ci]"
               git push
             fi
           else
-            echo "elecyrad/index.html not found - skipping commit"
+            echo "eleyrad/index.html not found - skipping commit"
           fi
