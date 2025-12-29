@@ -21,9 +21,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run scraper
+      - name: Run 1
         run: python main.py
 
+      - name: Run 2
+        run: python main.py
+
+      - name: Run 3
+        run: python main.py
+
+      - name: Run 4
+        run: python main.py
+
+      - name: Run 5
+        run: python main.py        
 
       - name: Commit and push file
         run: |
