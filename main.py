@@ -120,7 +120,11 @@ try:
             f.write(f"<p>{item1}\t{item2}</p>")				
 				
         f.write("</body></html>")	
-	
+
+    with open(path, "r", encoding="utf-8") as f:
+        data = f.read()
+        print(len(data))
+
 finally:
     driver.quit()
 
