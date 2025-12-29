@@ -1,0 +1,64 @@
+name: Generate elecyrad index.html
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  generate-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate index.html
+        run: |
+          cd elecyrad || mkdir -p elecyrad
+          FILES=$(ls elecyrad_*.html 2>/dev/null || echo "")
+          
+          if [ -z "$FILES" ]; then
+            echo "No elecyrad_*.html files found."
+            exit 0
+          fi
+          
+          cat > index.html << EOF
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Elecyrad Files</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: 50px auto; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 10px 0; }
+    a { display: block; padding: 10px; background: #f5f5f5; text-decoration: none; border-radius: 5px; }
+    a:hover { background: #e0e0e0; }
+  </style>
+</head>
+<body>
+  <h1>Elecyrad Files Directory</h1>
+  <ul>
+EOF
+          
+          for file in $FILES; do
+            echo "    <li><a href=\"$file\">$file</a></li>" >> index.html
+          done
+          
+          cat >> index.html << EOF
+  </ul>
+  <p>Generated automatically via GitHub Actions.</p>
+</body>
+</html>
+EOF
+          
+          echo "Generated elecyrad/index.html with $(echo $FILES | wc -w) files."
+
+      - name: Commit and push index.html
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add elecyrad/index.html
+          git diff --staged --quiet || git commit -m "Update elecyrad/index.html [skip ci]"
+          git push
